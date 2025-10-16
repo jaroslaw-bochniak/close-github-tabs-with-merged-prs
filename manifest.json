@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Close Merged GitHub Tabs",
+  "version": "1.0",
+  "description": "Automatically find and close all open tabs that contain already merged GitHub Pull Requests.",
+  "permissions": [
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://github.com/*"
+  ],
+  "action": {
+    "default_icon": {
+      "16": "icons/github16.png",
+      "24": "icons/github24.png",
+      "32": "icons/github32.png"
+    },
+    "default_title": "Close Merged GitHub Tabs"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/github16.png",
+    "32": "icons/github32.png",
+    "128": "icons/github128.png",
+    "512": "icons/github512.png"
+  }
+}
