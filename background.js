@@ -47,24 +47,21 @@ async function waitForTabComplete(tabId, timeoutMs = 15000) {
   });
 }
 
-// Ensure a tab is loaded (wakes discarded tabs and waits until load completes).
+// Refresh a tab and wait for it to fully load with updated content.
 async function ensureTabLoaded(tabId) {
   try {
     const tab = await chrome.tabs.get(tabId);
 
-    // If tab is discarded or not fully loaded, reload to wake it in background.
-    if (tab.discarded || tab.status !== 'complete') {
-      try {
-        await chrome.tabs.reload(tabId);
-      } catch (e) {
-        // Reload can fail for some URLs; continue to wait regardless.
-      }
-
-      const loaded = await waitForTabComplete(tabId);
-      return loaded;
+    // Always reload PR tabs to ensure we have the latest merge status.
+    // This handles cases where tabs were loaded before the PR was merged.
+    try {
+      await chrome.tabs.reload(tabId);
+    } catch (e) {
+      // Reload can fail for some URLs; continue to wait regardless.
     }
 
-    return true;
+    const loaded = await waitForTabComplete(tabId);
+    return loaded;
   } catch (e) {
     return false;
   }
